@@ -22,51 +22,56 @@
   <order>
     <hop>
       <from>Bancos</from>
-      <to>Sort rows Bancos</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows Bancos</from>
-      <to>load stage BANCOS to postgres</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows Bancos</from>
-      <to>Merge join</to>
+      <to>Sort ID Bancos</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Empregados</from>
-      <to>Sort rows Empregados</to>
+      <to>Sort ID Empregados</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows Empregados</from>
-      <to>load stage EMPREGADOS to postgres</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows Empregados</from>
+      <from>Sort ID Bancos</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Reclamações</from>
-      <to>Sort rows Reclamações</to>
+      <from>Sort ID Bancos</from>
+      <to>load stage BANCOS to postgres</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows Reclamações</from>
+      <from>Reclamações</from>
+      <to>Sort ID Reclamações</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort ID Empregados</from>
+      <to>load stage EMPREGADOS to postgres</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort ID Empregados</from>
+      <to>Merge join</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort ID Reclamações</from>
       <to>load stage RECLAMACOES to postgres 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows Reclamações</from>
+      <from>Sort ID Reclamações</from>
       <to>Merge join 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Merge join</from>
+      <to>Sort ID Join</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort ID Join</from>
       <to>Merge join 2</to>
       <enabled>Y</enabled>
     </hop>
@@ -406,7 +411,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <length>100</length>
+        <length>255</length>
         <precision>-1</precision>
         <trim_type>both</trim_type>
       </field>
@@ -448,12 +453,12 @@
       <key>nome</key>
       <key>segmento</key>
     </keys_2>
-    <transform1>Sort rows Bancos</transform1>
-    <transform2>Sort rows Empregados</transform2>
+    <transform1>Sort ID Bancos</transform1>
+    <transform2>Sort ID Empregados</transform2>
     <attributes/>
     <GUI>
       <xloc>496</xloc>
-      <yloc>320</yloc>
+      <yloc>224</yloc>
     </GUI>
   </transform>
   <transform>
@@ -474,12 +479,12 @@
     <keys_2>
       <key>cnpj_if</key>
     </keys_2>
-    <transform1>Merge join</transform1>
-    <transform2>Sort rows Reclamações</transform2>
+    <transform1>Sort ID Join</transform1>
+    <transform2>Sort ID Reclamações</transform2>
     <attributes/>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>416</yloc>
+      <xloc>496</xloc>
+      <yloc>480</yloc>
     </GUI>
   </transform>
   <transform>
@@ -777,7 +782,7 @@
     </GUI>
   </transform>
   <transform>
-    <name>Sort rows Bancos</name>
+    <name>Sort ID Bancos</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -817,7 +822,7 @@
     </GUI>
   </transform>
   <transform>
-    <name>Sort rows Empregados</name>
+    <name>Sort ID Empregados</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -857,7 +862,7 @@
     </GUI>
   </transform>
   <transform>
-    <name>Sort rows Reclamações</name>
+    <name>Sort ID Join</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -870,7 +875,47 @@
     <compress>N</compress>
     <directory>${java.io.tmpdir}</directory>
     <fields>
-</fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>cnpj</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>496</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Sort ID Reclamações</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>N</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>cnpj_if</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
     <sort_prefix>out</sort_prefix>
     <sort_size>1000000</sort_size>
     <unique_rows>N</unique_rows>
@@ -1058,8 +1103,8 @@
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>880</xloc>
-      <yloc>416</yloc>
+      <xloc>640</xloc>
+      <yloc>480</yloc>
     </GUI>
   </transform>
   <transform>
