@@ -88,23 +88,23 @@ Etapa de transformação dos dados, onde os dados foram ordenados pelas chaves q
 
 #### 1º join: Bancos e Empregados
 - Configuração do componente de Merge Join.
-![alt text](hop_join_bancos_empregados.png)
+![alt text](./assets/hop_join_bancos_empregados.png)
 
 #### 2º join: Resultado do 1º join e Reclamações
 - Configuração do componente de Merge Join.
-![alt text](hop_join_join1_reclamacoes.png)
+![alt text](./assets/hop_join_join1_reclamacoes.png)
 
 #### Preview da dimensão final
 - Preview 1:
-![alt text](hop_final_join_preview_1.png)
+![alt text](./assets/hop_final_join_preview_1.png)
 - Preview 2:
-![alt text](hop_final_join_preview_2.png)
+![alt text](./assets/hop_final_join_preview_2.png)
 - Preview 3:
-![alt text](hop_final_join_preview_3.png)
+![alt text](./assets/hop_final_join_preview_3.png)
 
 > Importante destacar que neste operador de join, há uma discrepância do resultado comparado a utilização de um banco relacional para relização do join.
 
 ### Load
 Etapa final do processo que leva o resultado da transformação para um banco relacional, neste caso, o Postgres.
-![alt text](postgres_dim_bancos_1.png)
-![alt text](postgres_dim_bancos_2.png)
+![alt text](./assets/postgres_dim_bancos_1.png)
+![alt text](./assets/postgres_dim_bancos_2.png)
